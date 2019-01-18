@@ -10,14 +10,12 @@ module.exports = {
             res.json(response)
         })
     },
-    search: (req, res) => {
-        let name = (req.params.name && `%${req.params.name}%`) || "%%";
-        
-        let sql = `SELECT * FROM ${table} WHERE display_name like ? order by point_received desc limit 30`;
-        db.query(sql, [name], (err, response) => {
-          if (err) throw err;
-          res.json(response);
-        });
+    detail: (req, res) => {
+        let sql = `SELECT * FROM ${table} WHERE id = ?`
+        db.query(sql, [req.params.userId], (err, response) => {
+            if (err) throw err
+            res.json(response[0])
+        })
     },
     update: (req, res) => {
         let data = req.body;
